@@ -12,7 +12,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.6.1",
     "eslint-plugin-node": "^7.0.1",
-    "mongodb": "^2.2.33",
+    "marked": "^2.0.1",
+    "mongodb": "^3.6",
     "nodemon": "^1.18.4"
   }
 }
