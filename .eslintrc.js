@@ -12,7 +12,7 @@ module.exports = {
      * Variables
      */
     'no-shadow': 2, // http://eslint.org/docs/rules/no-shadow
-    'no-tab': 0,
+    // 'no-tab': 0,
     'no-shadow-restricted-names': 2, // http://eslint.org/docs/rules/no-shadow-restricted-names
     'no-unused-vars': [2, { // http://eslint.org/docs/rules/no-unused-vars
       vars: 'local',
@@ -91,7 +91,7 @@ module.exports = {
     /**
  * Style
  */
-    indent: [0, 2], // http://eslint.org/docs/rules/indent
+    indent: ['error', 2], // http://eslint.org/docs/rules/indent
     'brace-style': [2, // http://eslint.org/docs/rules/brace-style
       '1tbs', {
         allowSingleLine: true
@@ -108,7 +108,7 @@ module.exports = {
     }],
     'comma-style': [2, 'last'], // http://eslint.org/docs/rules/comma-style
     'eol-last': 2, // http://eslint.org/docs/rules/eol-last
-    'func-names': 1, // http://eslint.org/docs/rules/func-names
+    'func-names': 0, // http://eslint.org/docs/rules/func-names
     'key-spacing': [2, { // http://eslint.org/docs/rules/key-spacing
       beforeColon: false,
       afterColon: true
