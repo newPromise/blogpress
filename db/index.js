@@ -60,5 +60,4 @@ class DbMethods extends Db {
   }
 }
 
-exports.DbMethods = DbMethods;
-exports.Db = Db;
+module.exports = { Db, DbMethods };

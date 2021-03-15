@@ -11,7 +11,7 @@ const ApiMap = {
 const ApiPathMap = Object.keys(ApiMap).reduce((map, api) => {
   const childPaths = Object.keys(ApiMap[api]);
   childPaths.forEach(path => {
-    const fullApi = `${api}/${path}`;
+    const fullApi = `/${api}/${path}`;
     map[fullApi] = ApiMap[api][path];
   });
   return map;
