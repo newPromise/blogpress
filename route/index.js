@@ -1,9 +1,18 @@
 // 路由控制模块
 const { ApiPathMap: controllers } = require('../controllers');
+const { ResBody } = require('../lib/util');
 const URL = require('url');
 const http = require('http');
 
-//  是否为有效的路径
+const SUCCESS_RES = new ResBody(200, 'success');
+const CLIENT_ERR = new ResBody(400, 'not allowed request method');
+
+
+function setResBody(resType, data) {
+  return JSON.stringify(Object.assign({}, resType, data ? { data } : {}));
+}
+
+
 function isValidRoutePath(path) {
   return controllers[path] || false;
 }
@@ -16,7 +25,7 @@ function route(req, res) {
   const getParams = (method, cb) => {
     if (method === 'GET') {
       const queryParms = URL.parse(req.url, true).query;
-      cb(queryParms, res);
+      res.end(setResBody(SUCCESS_RES, cb(queryParms)));
     } else if (method === 'POST') {
       let params = '';
       req.addListener('data', (data) => {
@@ -28,16 +37,15 @@ function route(req, res) {
       });
     }
   };
-
   if (validPath) {
     const reqMethod = req.method;
-    const { fn, method } = validPath;
+    const { handler: fn, method } = validPath;
     if (reqMethod === 'OPTIONS') {
       res.end(JSON.stringify({ status: 400, message: '请求方法应 请求' }));
     } else {
       if (reqMethod !== method) {
         res.statusCode = 405;
-        res.end(JSON.stringify({ status: 400, message: `请求方法应为 ${method} 请求` }));
+        res.end(setResBody(CLIENT_ERR));
       } else {
         getParams(method, fn);
       }
