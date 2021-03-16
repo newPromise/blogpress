@@ -3,6 +3,14 @@ const { ApiPathMap: controllers } = require('../controllers');
 const { ResBody } = require('../lib/util');
 const URL = require('url');
 const http = require('http');
+const log = require('log4js');
+
+log.configure({
+  appenders: { log: { type: 'console' }, write: { type: 'file', filename: 'log.log' } },
+  categories: { default: { appenders: [ 'log', 'write' ], level: 'info' } }
+});
+
+const logger =  log.getLogger();
 
 const SUCCESS_RES = new ResBody(200, 'success');
 const CLIENT_ERR = new ResBody(400, 'not allowed request method');
@@ -15,6 +23,11 @@ function setResBody(resType, data) {
 
 function isValidRoutePath(path) {
   return controllers[path] || false;
+}
+
+function logInfo(req) {
+  const { method, url  } = req;
+  logger.info(`${method} ${url}`);
 }
 
 
@@ -37,6 +50,7 @@ function route(req, res) {
       });
     }
   };
+  logInfo(req);
   if (validPath) {
     const reqMethod = req.method;
     const { handler: fn, method } = validPath;
