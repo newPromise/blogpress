@@ -22,18 +22,18 @@ function route(req, res) {
   const parseUrl = URL.parse(req.url);
   const path = parseUrl.pathname;
   const validPath = isValidRoutePath(path);
-  const getParams = (method, cb) => {
+  const getParams = async(method, cb) => {
     if (method === 'GET') {
       const queryParms = URL.parse(req.url, true).query;
-      res.end(setResBody(SUCCESS_RES, cb(queryParms)));
+      res.end(setResBody(SUCCESS_RES, await cb(queryParms)));
     } else if (method === 'POST') {
       let params = '';
       req.addListener('data', (data) => {
         params += data;
       });
       // 接收数据结束
-      req.addListener('end', function reqEnd() {
-        cb(params, res);
+      req.addListener('end', async function reqEnd() {
+        await cb(params, res);
       });
     }
   };

@@ -4,11 +4,11 @@ const { wrapPromise } = require('../lib/util.js');
 
 const dbConfig = {
   dbHost: 'mongodb://127.0.0.1:27017',
-  dbName: 'test',
+  dbName: 'blog',
   collectionName: 'col'
 };
 
-let DB = '';
+let DB = null;
 // 数据库
 class Db {
   constructor() {
@@ -22,6 +22,7 @@ class Db {
         } else {
           resolve();
           DB = db.db(dbConfig.dbName);
+          global.DB = DB;
           console.log('数据库连接成功');
         }
       });
@@ -33,10 +34,11 @@ class DbMethods extends Db {
   constructor(collectionName) {
     super();
     this.collectionName = collectionName;
+    this.collection = null;
   }
   // 连接特定表
   setCollection() {
-    this.collection = DB.collection(this.collectionName);
+    this.collection = global.DB.collection(this.collectionName);
   }
   insert(data) {
     return wrapPromise(cb => {
