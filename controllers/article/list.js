@@ -1,9 +1,8 @@
-const { DbMethods } = require('../../db/index');
-const listCollection = new DbMethods('list');
+const { LIST } = require('../../db/collector');
 
 function getList(params) {
   const { pageSize, pageNo } = params;
-  listCollection.setCollection();
+  LIST.setCollection();
   return listCollection.collection.find({}, { skip: (pageNo - 1) * pageSize, limit: pageSize }).toArray();
 }
 
