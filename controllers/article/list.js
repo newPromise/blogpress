@@ -1,7 +1,9 @@
 const { LIST } = require('../../db/collector');
 
 function getList(params) {
-  const { pageSize, pageNo } = params;
+  let { pageSize, pageNo } = params;
+  pageSize = Number(pageSize);
+  pageNo = Number(pageNo);
   LIST.setCollection();
   return LIST.collection.find({}, { skip: (pageNo - 1) * pageSize, limit: pageSize }).toArray();
 }
