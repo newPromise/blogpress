@@ -5,7 +5,13 @@ function getList(params) {
   pageSize = Number(pageSize);
   pageNo = Number(pageNo);
   LIST.setCollection();
-  return LIST.collection.find({}, { skip: (pageNo - 1) * pageSize, limit: pageSize }).toArray();
+  return LIST.collection.find({}, { skip: (pageNo - 1) * pageSize, limit: pageSize }).toArray().then(data => {
+    return data.map(item => {
+      item.id = item._id;
+      return item;
+    });
+  }
+  );
 }
 
 function setList(list) {
